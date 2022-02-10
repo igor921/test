@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script></head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<body>
+
+<div class="card" style="    width: 70%; margin: auto;">
+    <div class="card-header"><h3>Default input file field </h3></div>
+    <div class="card-body">
+        <form id="form">
+            <label for="file" class="form-label"></label>
+            <div class="row">
+                <div class="col-sm-6"><input class="form-control"  name="file" type="file" id="file"></div>
+                <div class="col-sm-2">
+                    <select class="form-select">
+                        <option value="BUBBLE">Bubble</option>
+                        <option value="HEAP">Heap</option>
+                        <option value="MERGE">Merge</option>
+                        <option value="DEFAULT" >Default</option>
+                    </select>
+                </div>
+                <div class="col-sm-4"><button class="btn btn-success" >Upload file</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card" style="    width: 70%; margin: auto;">
+    <div class="card-body">
+        <table data-show-export="true" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<script>
+
+    $('#form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/students/sort?sortingType=' + $('select').val(),
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data){
+                var result = '';
+                data.forEach(element => {
+                    result = result + '<tr><td>'+ element['name'] +'</td><td>'+ element['score'] +'</td></tr>'
+                });
+                $('tbody').html(result);
+            },
+            error: function(data){
+                $('tbody').text('');
+                alert(data.responseJSON['message']);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
