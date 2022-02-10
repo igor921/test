@@ -14,4 +14,4 @@ java -jar target/App-0.0.1-SNAPSHOT.jar
 <h2>API</h2>
 http://localhost:8080
 
-Select test.txt for text
+Select test.txt for test
